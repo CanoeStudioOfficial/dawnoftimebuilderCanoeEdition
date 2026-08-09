@@ -17,7 +17,7 @@
 			"from": [0, 10, 6],
 			"to": [16, 16, 16],
 			"faces": {
-				"north": {"uv": [4, 4, 8, 5.5], "texture": "#4_texture", "cullface": "north"},
+				"north": {"uv": [4, 4, 8, 5.5], "texture": "#4_texture"},
 				"south": {"uv": [4, 1, 8, 2.5], "texture": "#4_texture"},
 				"up": {"uv": [8, 5.5, 4, 8], "texture": "#4_texture", "cullface": "up"}
 			}
@@ -26,9 +26,9 @@
 			"from": [0, 6, 4],
 			"to": [16, 10, 16],
 			"faces": {
-				"north": {"uv": [4, 0, 8, 1], "texture": "#4_texture", "cullface": "north"},
+				"north": {"uv": [4, 0, 8, 1], "texture": "#4_texture"},
 				"south": {"uv": [4, 0, 8, 1], "texture": "#4_texture", "cullface": "south"},
-				"up": {"uv": [8, 1, 4, 4], "texture": "#4_texture", "cullface": "up"},
+				"up": {"uv": [8, 1, 4, 4], "texture": "#4_texture"},
 				"down": {"uv": [4, 1, 8, 4], "texture": "#4_texture"}
 			}
 		}

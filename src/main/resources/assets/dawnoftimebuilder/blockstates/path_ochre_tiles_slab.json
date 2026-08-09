@@ -1,7 +1,7 @@
 {
     "variants": {
         "full=true,half=bottom": [
-            { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_bottom" }
+            { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_bottom_full" }
         ],
         "full=false,half=bottom": [
             { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_bottom" }

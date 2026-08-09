@@ -2,7 +2,7 @@
     "textures": {
         "particle": "dawnoftimebuilder:blocks/path_ochre_tiles_side",
 		"bottom": "dawnoftimebuilder:blocks/path_bottom",
-        "top": "dawnoftimebuilder:blocks/path_ochretiles_top",
+        "top": "dawnoftimebuilder:blocks/path_ochre_tiles_top",
         "side": "dawnoftimebuilder:blocks/slab_path_ochre_tiles_side"
     },
     "elements": [

@@ -4,8 +4,10 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -57,6 +59,23 @@ public class DoTBBlockPath extends DoTBBlock {
 	@Override
 	public boolean isFullCube(IBlockState state){
 		return state.getValue(FULL);
+	}
+
+	@Override
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing face) {
+		return this.getActualState(state, worldIn, pos).getValue(FULL);
+	}
+
+	@Override
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+		return this.getActualState(state, worldIn, pos).getValue(FULL)
+				? BlockFaceShape.SOLID
+				: face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+	}
+
+	@Override
+	public boolean isSideSolid(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+		return this.getActualState(state, worldIn, pos).getValue(FULL) || side != EnumFacing.UP;
 	}
 
 	@Override

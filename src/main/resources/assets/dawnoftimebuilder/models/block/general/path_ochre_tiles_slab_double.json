@@ -1,8 +1,8 @@
 ﻿{   "parent": "block/block",
     "textures": {
-        "particle": "dawnoftimebuilder:blocks/slab_path_ochre_tiles_side_full",
+        "particle": "dawnoftimebuilder:blocks/path_ochre_tiles_side_full",
         "top": "dawnoftimebuilder:blocks/path_ochre_tiles_top",
-        "side": "dawnoftimebuilder:blocks/slab_path_ochre_tiles_side",
+        "side": "dawnoftimebuilder:blocks/path_ochre_tiles_side",
         "bottom": "dawnoftimebuilder:blocks/path_bottom"
     },
     "elements": [

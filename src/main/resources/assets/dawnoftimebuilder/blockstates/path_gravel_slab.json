@@ -1,6 +1,6 @@
 {
     "variants": {
-        "full=true,half=bottom": { "model": "dawnoftimebuilder:general/path_gravel_slab_bottom" },
+        "full=true,half=bottom": { "model": "dawnoftimebuilder:general/path_gravel_slab_bottom_full" },
         "full=false,half=bottom": { "model": "dawnoftimebuilder:general/path_gravel_slab_bottom" },
         "full=true,half=top": { "model": "dawnoftimebuilder:general/path_gravel_slab_top_full" },
         "full=false,half=top": { "model": "dawnoftimebuilder:general/path_gravel_slab_top" }

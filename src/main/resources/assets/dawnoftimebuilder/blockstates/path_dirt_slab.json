@@ -1,10 +1,10 @@
 {
     "variants": {
         "full=true,half=bottom": [
-            { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom" },
-            { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom", "y": 90  },
-            { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom", "y": 180  },
-            { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom", "y": 270  }
+            { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom_full" },
+            { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom_full", "y": 90  },
+            { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom_full", "y": 180  },
+            { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom_full", "y": 270  }
         ],
         "full=false,half=bottom": [
             { "model": "dawnoftimebuilder:general/path_dirt_slab_bottom" },
