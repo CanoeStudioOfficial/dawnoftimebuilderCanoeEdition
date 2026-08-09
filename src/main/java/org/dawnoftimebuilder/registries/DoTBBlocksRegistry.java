@@ -135,13 +135,9 @@ public class DoTBBlocksRegistry {
 				new DoTBBlock("rammed_dirt", Material.GROUND, 0.5F, SoundType.GROUND),
 				thatch_wheat.setBurnable(),
 				new DoTBBlockStairs("thatch_wheat_stairs", thatch_wheat, 0.3F, SoundType.CLOTH).setBurnable(),
-				thatch_wheat_slab,
-				thatch_wheat_slab_double,
 				new DoTBBlockEdge("thatch_wheat_edge", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable(),
 				thatch_bamboo.setBurnable(),
 				new DoTBBlockStairs("thatch_bamboo_stairs", thatch_bamboo, 0.3F, SoundType.CLOTH).setBurnable(),
-				thatch_bamboo_slab,
-				thatch_bamboo_slab_double,
 				new DoTBBlockEdge("thatch_bamboo_edge", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable(),
 				new BlockFireplace(),
 
@@ -149,8 +145,6 @@ public class DoTBBlocksRegistry {
 				new DoTBBlock("cobbled_limestone", Material.ROCK, 1.0F, SoundType.STONE),
 				flat_roof_tiles,
 				new DoTBBlockStairs("flat_roof_tiles_stairs", flat_roof_tiles, 2.0F, SoundType.STONE),
-				flat_roof_tiles_slab,
-				flat_roof_tiles_slab_double,
 				new DoTBBlockEdge("flat_roof_tiles_edge", Material.ROCK, 1.5F, SoundType.STONE),
 				new DoTBBlock("framed_rammed_dirt", Material.WOOD, 1.0F, SoundType.GROUND).setBurnable(),
 				new DoTBBlockPortcullis("iron_portcullis", Material.IRON),
@@ -159,8 +153,6 @@ public class DoTBBlocksRegistry {
 				new BlockLatticeOakWindow(),
 				limestone_brick,
 				new DoTBBlockStairs("limestone_brick_stairs", limestone_brick, 2.0F, SoundType.STONE),
-				limestone_brick_slab,
-				limestone_brick_slab_double,
 				new DoTBBlockEdge("limestone_brick_edge", Material.ROCK, 2.0F, SoundType.STONE),
 				new DoTBBlockWall("limestone_brick_wall", Material.ROCK, 2.0F, SoundType.STONE),
 				new BlockLimestoneChimney(),
@@ -177,8 +169,6 @@ public class DoTBBlocksRegistry {
 				new DoTBBlockFence("oak_waxed_fence", Material.WOOD).setBurnable(),
 				oak_waxed_planks.setBurnable(),
 				new DoTBBlockStairs("oak_waxed_planks_stairs", oak_waxed_planks, 1.5F, SoundType.WOOD),
-				oak_waxed_planks_slab,
-				oak_waxed_planks_slab_double,
 				new DoTBBlockEdge("oak_waxed_planks_edge", Material.WOOD, 1.5F, SoundType.WOOD),
 
 				//Japanese
@@ -191,8 +181,6 @@ public class DoTBBlocksRegistry {
 				new BlockPaperLamp(),
 				grey_roof_tiles,
 				new DoTBBlockStairs("grey_roof_tiles_stairs", grey_roof_tiles, 2.0F, SoundType.STONE),
-				grey_roof_tiles_slab,
-				grey_roof_tiles_slab_double,
 				new DoTBBlockEdge("grey_roof_tiles_edge", Material.ROCK, 1.5F, SoundType.STONE),
 				new DoTBBlockWall("grey_roof_tiles_wall", Material.ROCK, 2.0F, SoundType.STONE),
 				new BlockIkebanaFlowerPot(),
@@ -229,8 +217,6 @@ public class DoTBBlocksRegistry {
 				new BlockIrori(),
 				new BlockSakeBottle(),
 				new BlockSakeCup(),
-				spruce_foundation_slab,
-				spruce_foundation_slab_double,
 				new BlockStickBundle(),
 
 				//mayan
@@ -248,16 +234,12 @@ public class DoTBBlocksRegistry {
 				new DoTBBlockPlate("plastered_stone_frieze"),
 				new DoTBBlockPlate("plastered_stone_plate"),
 				new DoTBBlockStairs("plastered_stone_stairs", plastered_stone, 2.0F, SoundType.STONE),
-				plastered_stone_slab,
-				plastered_stone_slab_double,
 				new DoTBBlockEdge("plastered_stone_edge", Material.ROCK, 1.5F, SoundType.STONE),
 				new BlockPlasteredStoneWindow(),
 				new DoTBBlockPlate("red_ornamented_plastered_stone_frieze"),
 				new DoTBBlockPlate("red_plastered_stone_frieze"),
 				new DoTBBlockPlate("red_plastered_stone_plate"),
 				new DoTBBlockStairs("red_plastered_stone_stairs", plastered_stone, 1, 2.0F, SoundType.STONE),
-				red_plastered_stone_slab,
-				red_plastered_stone_slab_double,
 				new DoTBBlockEdge("red_plastered_stone_edge", Material.ROCK, 1.5F, SoundType.STONE),
 				new BlockRedSculptedPlasteredStoneFrieze(),
 				new DoTBBlockEdge("red_small_plastered_stone_frieze", Material.ROCK, 1.5F, SoundType.STONE),
@@ -267,8 +249,6 @@ public class DoTBBlocksRegistry {
 				//roman
 				new DoTBBlock("ochre_roof_tiles", Material.ROCK, 2.0F, SoundType.STONE),
 				new BlockOchreRoofTilesMerged(),
-				ochre_roof_tiles_slab,
-				ochre_roof_tiles_slab_double,
 				new BlockSandstoneColumn()
 		);
 	}
