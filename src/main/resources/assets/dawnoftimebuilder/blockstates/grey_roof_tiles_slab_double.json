@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:japanese/grey_roof_tiles" },
+        "half=top": { "model": "dawnoftimebuilder:japanese/grey_roof_tiles" }
+    }
+}

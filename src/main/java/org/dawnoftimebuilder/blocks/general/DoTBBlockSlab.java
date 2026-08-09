@@ -1,155 +1,115 @@
 package org.dawnoftimebuilder.blocks.general;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockSlab;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockFaceShape;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import org.dawnoftimebuilder.items.general.DoTBItemSlab;
+import net.minecraft.util.NonNullList;
 import org.dawnoftimebuilder.blocks.IBlockCustomItem;
+import org.dawnoftimebuilder.items.general.DoTBItemSlab;
 
-public class DoTBBlockSlab extends DoTBBlock implements IBlockCustomItem {
+import java.util.Random;
 
-	protected static final PropertyEnum<EnumSlab> SLAB = PropertyEnum.create("slab", EnumSlab.class);
+import static org.dawnoftimebuilder.DawnOfTimeBuilder.DOTB_TAB;
+import static org.dawnoftimebuilder.DawnOfTimeBuilder.MOD_ID;
 
-	static final AxisAlignedBB AABB_BOTTOM = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
-	static final AxisAlignedBB AABB_TOP = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
+/**
+ * 标准原版式台阶（BlockSlab）。每个材质注册 half/double 两个方块：
+ * - half：放置/合成/创造栏可见，物品由 {@link DoTBItemSlab}（原版 ItemSlab）处理双击合成；
+ * - double：仅用于世界中的完整台阶，掉落时还原为 2 个 half 物品。
+ */
+public abstract class DoTBBlockSlab extends BlockSlab implements IBlockCustomItem {
+
+	private BlockSlab singleSlab;
+	private BlockSlab doubleSlab;
 
 	public DoTBBlockSlab(String name, Material materialIn, float hardness, SoundType sound) {
-		super(name, materialIn, hardness, sound);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(SLAB, EnumSlab.BOTTOM));
-		this.setLightOpacity(255);
+		super(materialIn);
+
+		this.setRegistryName(MOD_ID, name);
+		this.setTranslationKey(MOD_ID + "." + name);
+		this.setCreativeTab(DOTB_TAB);
+		this.setHardness(hardness);
+		this.setSoundType(sound);
 		this.useNeighborBrightness = true;
+
+		this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM));
+	}
+
+	/** 设置与之配对的 half/double 方块（half 指向自身与 double；double 指向 half 与自身）。 */
+	public void setSlabs(BlockSlab singleSlab, BlockSlab doubleSlab) {
+		this.singleSlab = singleSlab;
+		this.doubleSlab = doubleSlab;
+	}
+
+	public BlockSlab getDoubleSlab() {
+		return this.doubleSlab;
 	}
 
 	@Override
-	public BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, SLAB);
-	}
-
-	/**
-	 * Called by ItemBlocks just before a blocks is actually set in the world, to allow for adjustments to the
-	 * IBlockstate
-	 */
-	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-		IBlockState state = super.getStateForPlacement(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(SLAB, EnumSlab.BOTTOM);
-		return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double)hitY <= 0.5D) ? state : state.withProperty(SLAB, EnumSlab.TOP);
+	public IProperty<?> getVariantProperty() {
+		return null;
 	}
 
 	@Override
-	protected boolean canSilkHarvest()
-	{
-		return false;
+	public Comparable<?> getTypeForItem(ItemStack stack) {
+		return null;
 	}
 
 	@Override
-	public void getDrops(net.minecraft.util.NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		drops.add(new ItemStack(Item.getItemFromBlock(this), 1));
-		if(state.getValue(SLAB) == EnumSlab.DOUBLE) drops.add(new ItemStack(Item.getItemFromBlock(this), 1));
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, HALF);
 	}
 
 	@Override
-	public int getMetaFromState(IBlockState state){
-		switch (state.getValue(SLAB)) {
-			default:
-			case BOTTOM:
-				return 0;
-			case TOP:
-				return 1;
-			case DOUBLE:
-				return 2;
-		}
+	public String getTranslationKey(int meta) {
+		return super.getTranslationKey();
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		if (this.isDouble()) return 0;
+		return state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP ? 8 : 0;
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		switch (meta) {
-			default:
-			case 0:
-				return this.getDefaultState().withProperty(SLAB, EnumSlab.BOTTOM);
-			case 1:
-				return this.getDefaultState().withProperty(SLAB, EnumSlab.TOP);
-			case 2:
-				return this.getDefaultState().withProperty(SLAB, EnumSlab.DOUBLE);
-		}
+		if (this.isDouble()) return this.getDefaultState();
+		return this.getDefaultState().withProperty(HALF, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-		switch (state.getValue(SLAB)) {
-			default:
-			case BOTTOM:
-				return AABB_BOTTOM;
-			case TOP:
-				return AABB_TOP;
-			case DOUBLE:
-				return FULL_BLOCK_AABB;
-		}
+	public int damageDropped(IBlockState state) {
+		return 0;
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) {
-		return state.getValue(SLAB) == EnumSlab.DOUBLE;
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		if (this.isDouble()) return Item.getItemFromBlock(this.singleSlab);
+		return super.getItemDropped(state, rand, fortune);
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) {
-		return state.getValue(SLAB) == EnumSlab.DOUBLE;
-	}
-
-	@Override
-	public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side){
-		return this.getBlockFaceShape(world, state, pos, side) == BlockFaceShape.SOLID;
-	}
-
-	@Override
-	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing side) {
-		if(state.getValue(SLAB) == EnumSlab.DOUBLE) return BlockFaceShape.SOLID;
-		if(side == EnumFacing.DOWN && state.getValue(SLAB) == EnumSlab.BOTTOM) return BlockFaceShape.SOLID;
-		if(side == EnumFacing.UP && state.getValue(SLAB) == EnumSlab.TOP) return BlockFaceShape.SOLID;
-		return BlockFaceShape.UNDEFINED;
+	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		if (!this.isDouble()) items.add(new ItemStack(this, 1, 0));
 	}
 
 	@Override
 	public Item getCustomItemBlock() {
-		return new DoTBItemSlab(this);
+		if (this.isDouble()) return null;
+		return new DoTBItemSlab(this, this, this.doubleSlab);
 	}
 
-	public EnumSlab getSlabState(IBlockState state){
-		return state.getValue(SLAB);
-	}
-
-	public IBlockState getDoubleSlabDefaultState(){
-		return this.getDefaultState().withProperty(SLAB, EnumSlab.DOUBLE);
-	}
-
-	public enum EnumSlab implements IStringSerializable {
-		BOTTOM("bottom"),
-		TOP("top"),
-		DOUBLE("double");
-
-		private final String name;
-
-		EnumSlab(String name){
-			this.name = name;
-		}
-
-		public String toString(){
-			return this.name;
-		}
-
-		public String getName(){
-			return this.name;
-		}
+	@SuppressWarnings("unchecked")
+	public <T extends DoTBBlockSlab> T setBurnable() {
+		Blocks.FIRE.setFireInfo(this, 5, 20);
+		return (T) this;
 	}
 }

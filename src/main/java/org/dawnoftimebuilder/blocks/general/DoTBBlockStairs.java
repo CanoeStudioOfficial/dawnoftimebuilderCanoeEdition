@@ -24,7 +24,7 @@ public class DoTBBlockStairs extends BlockStairs {
     }
 
 	public DoTBBlockStairs(String name, Block block, int meta, float hardness, SoundType sound) {
-        this(name, block.getBlockState().getValidStates().get(meta), hardness, sound);
+        this(name, block.getStateFromMeta(meta), hardness, sound);
 	}
 
     public DoTBBlockStairs(String name, Block block, float hardness, SoundType sound) {

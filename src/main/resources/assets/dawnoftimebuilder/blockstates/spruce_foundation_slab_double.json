@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:japanese/spruce_foundation" },
+        "half=top": { "model": "dawnoftimebuilder:japanese/spruce_foundation" }
+    }
+}

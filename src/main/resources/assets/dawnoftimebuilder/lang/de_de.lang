@@ -1,16 +1,14 @@
-﻿itemGroup.dawnoftimebuilder=Dawn of Time : Builder Edition
+itemGroup.dawnoftimebuilder=Dawn of Time : Builder Edition
 
 tile.dawnoftimebuilder.path_cobbled.name=Steinplattenweg
 tile.dawnoftimebuilder.path_dirt.name=Erdweg
 tile.dawnoftimebuilder.path_gravel.name=Schotterweg
 tile.dawnoftimebuilder.path_ochre_tiles.name=Ockerfarbener Ziegelweg
-tile.dawnoftimebuilder.path_sandstone.name=Sandsteinweg
 tile.dawnoftimebuilder.path_stepping_stones.name=Trittsteinweg
 tile.dawnoftimebuilder.path_cobbled_slab.name=Slabbed Path Slab
 tile.dawnoftimebuilder.path_dirt_slab.name=Dirt Path Slab
 tile.dawnoftimebuilder.path_gravel_slab.name=Gravel Path Slab
 tile.dawnoftimebuilder.path_ochre_tiles_slab.name=Ochre Tiles Path Slab
-tile.dawnoftimebuilder.path_sandstone_slab.name=Sandstone Path Slab
 tile.dawnoftimebuilder.path_stepping_stones_slab.name=Stepping Stones Path Slab
 tile.dawnoftimebuilder.rammed_dirt.name=Gestampfte Erde
 tile.dawnoftimebuilder.framed_rammed_dirt.name=Gerahmte gestampfte Erde

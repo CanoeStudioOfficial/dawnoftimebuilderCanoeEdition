@@ -1,6 +1,7 @@
 package org.dawnoftimebuilder.items.japanese;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.block.BlockSlab;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.dawnoftimebuilder.blocks.general.DoTBBlockSlab;
 
 import static org.dawnoftimebuilder.DawnOfTimeBuilder.MOD_ID;
 import static org.dawnoftimebuilder.blocks.DoTBBlocks.*;
@@ -40,21 +40,18 @@ public class ItemSpruceRoofSupport extends ItemBlock {
 
 		if (!itemstack.isEmpty() && player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
 			IBlockState state = worldIn.getBlockState(pos);
-			if (state.getBlock() == grey_roof_tiles_slab) {
-				DoTBBlockSlab slab = (DoTBBlockSlab) state.getBlock();
-				if(slab.getSlabState(state) == DoTBBlockSlab.EnumSlab.TOP){
-					IBlockState madeState = spruce_roof_support_merged.getDefaultState().withProperty(FACING, player.getHorizontalFacing());
-					if (worldIn.checkNoEntityCollision(AABB_FULL.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
-						SoundType soundtype = this.block.getSoundType(madeState, worldIn, pos, player);
-						worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-						itemstack.shrink(1);
-						if (player instanceof EntityPlayerMP){
-							CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP)player, pos, itemstack);
-						}
+			if (state.getBlock() == grey_roof_tiles_slab && state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP) {
+				IBlockState madeState = spruce_roof_support_merged.getDefaultState().withProperty(FACING, player.getHorizontalFacing());
+				if (worldIn.checkNoEntityCollision(AABB_FULL.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
+					SoundType soundtype = this.block.getSoundType(madeState, worldIn, pos, player);
+					worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+					itemstack.shrink(1);
+					if (player instanceof EntityPlayerMP){
+						CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP)player, pos, itemstack);
 					}
-
-					return EnumActionResult.SUCCESS;
 				}
+
+				return EnumActionResult.SUCCESS;
 			}
 
 			return this.tryPlace(player, itemstack, worldIn, pos.offset(facing)) ? EnumActionResult.SUCCESS : super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
@@ -65,10 +62,7 @@ public class ItemSpruceRoofSupport extends ItemBlock {
 	@Override
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
 		IBlockState state = worldIn.getBlockState(pos);
-		if(state.getBlock() == grey_roof_tiles_slab) {
-			DoTBBlockSlab slab = (DoTBBlockSlab) state.getBlock();
-			if(slab.getSlabState(state) == DoTBBlockSlab.EnumSlab.BOTTOM) return true;
-		}
+		if(state.getBlock() == grey_roof_tiles_slab && state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.BOTTOM) return true;
 
 		return super.canPlaceBlockOnSide(worldIn, pos, side, player, stack);
 	}
@@ -76,17 +70,14 @@ public class ItemSpruceRoofSupport extends ItemBlock {
 	private boolean tryPlace(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos) {
 		IBlockState state = worldIn.getBlockState(pos);
 
-		if(state.getBlock() == grey_roof_tiles_slab) {
-			DoTBBlockSlab slab = (DoTBBlockSlab) state.getBlock();
-			if (slab.getSlabState(state) == DoTBBlockSlab.EnumSlab.TOP) {
-				IBlockState madeState = spruce_roof_support_merged.getDefaultState().withProperty(FACING, player.getHorizontalFacing());
-				if (worldIn.checkNoEntityCollision(AABB_FULL.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
-					SoundType soundtype = this.block.getSoundType(madeState, worldIn, pos, player);
-					worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-					stack.shrink(1);
-				}
-				return true;
+		if(state.getBlock() == grey_roof_tiles_slab && state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP) {
+			IBlockState madeState = spruce_roof_support_merged.getDefaultState().withProperty(FACING, player.getHorizontalFacing());
+			if (worldIn.checkNoEntityCollision(AABB_FULL.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
+				SoundType soundtype = this.block.getSoundType(madeState, worldIn, pos, player);
+				worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+				stack.shrink(1);
 			}
+			return true;
 		}
 		return false;
 	}

@@ -41,6 +41,13 @@ public class DoTBBlocksRegistry {
 		Collections.addAll(blocks_list, blocks);
 	}
 
+	/** 注册一对原版式台阶（half + double），并互相绑定引用。 */
+	private static void addSlabPair(DoTBBlockSlab single, DoTBBlockSlab dbl){
+		single.setSlabs(single, dbl);
+		dbl.setSlabs(single, dbl);
+		addToList(single, dbl);
+	}
+
 	public static void init(){
 		DoTBBlock thatch_bamboo = new DoTBBlock("thatch_bamboo", Material.CLOTH, 0.3F, SoundType.CLOTH);
 		DoTBBlock thatch_wheat = new DoTBBlock("thatch_wheat", Material.CLOTH, 0.3F, SoundType.CLOTH);
@@ -50,15 +57,72 @@ public class DoTBBlocksRegistry {
 		DoTBBlock grey_roof_tiles = new DoTBBlock("grey_roof_tiles", Material.ROCK,1.5F, SoundType.STONE);
 		BlockPlasteredStone plastered_stone = new BlockPlasteredStone();
 
+		//Slabs (standard BlockSlab: each material registers a half + double pair)
+		DoTBBlockSlabHalf thatch_wheat_slab = new DoTBBlockSlabHalf("thatch_wheat_slab", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable();
+		DoTBBlockSlabDouble thatch_wheat_slab_double = new DoTBBlockSlabDouble("thatch_wheat_slab_double", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable();
+		addSlabPair(thatch_wheat_slab, thatch_wheat_slab_double);
+
+		DoTBBlockSlabHalf thatch_bamboo_slab = new DoTBBlockSlabHalf("thatch_bamboo_slab", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable();
+		DoTBBlockSlabDouble thatch_bamboo_slab_double = new DoTBBlockSlabDouble("thatch_bamboo_slab_double", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable();
+		addSlabPair(thatch_bamboo_slab, thatch_bamboo_slab_double);
+
+		DoTBBlockSlabHalf flat_roof_tiles_slab = new DoTBBlockSlabHalf("flat_roof_tiles_slab", Material.ROCK, 2.0F, SoundType.STONE);
+		DoTBBlockSlabDouble flat_roof_tiles_slab_double = new DoTBBlockSlabDouble("flat_roof_tiles_slab_double", Material.ROCK, 2.0F, SoundType.STONE);
+		addSlabPair(flat_roof_tiles_slab, flat_roof_tiles_slab_double);
+
+		DoTBBlockSlabHalf limestone_brick_slab = new DoTBBlockSlabHalf("limestone_brick_slab", Material.ROCK, 2.0F, SoundType.STONE);
+		DoTBBlockSlabDouble limestone_brick_slab_double = new DoTBBlockSlabDouble("limestone_brick_slab_double", Material.ROCK, 2.0F, SoundType.STONE);
+		addSlabPair(limestone_brick_slab, limestone_brick_slab_double);
+
+		DoTBBlockSlabHalf oak_waxed_planks_slab = new DoTBBlockSlabHalf("oak_waxed_planks_slab", Material.WOOD, 1.5F, SoundType.WOOD);
+		DoTBBlockSlabDouble oak_waxed_planks_slab_double = new DoTBBlockSlabDouble("oak_waxed_planks_slab_double", Material.WOOD, 1.5F, SoundType.WOOD);
+		addSlabPair(oak_waxed_planks_slab, oak_waxed_planks_slab_double);
+
+		DoTBBlockSlabHalf grey_roof_tiles_slab = new DoTBBlockSlabHalf("grey_roof_tiles_slab", Material.ROCK, 2.0F, SoundType.STONE);
+		DoTBBlockSlabDouble grey_roof_tiles_slab_double = new DoTBBlockSlabDouble("grey_roof_tiles_slab_double", Material.ROCK, 2.0F, SoundType.STONE);
+		addSlabPair(grey_roof_tiles_slab, grey_roof_tiles_slab_double);
+
+		DoTBBlockSlabHalf spruce_foundation_slab = new DoTBBlockSlabHalf("spruce_foundation_slab", Material.WOOD, 1.0F, SoundType.WOOD);
+		DoTBBlockSlabDouble spruce_foundation_slab_double = new DoTBBlockSlabDouble("spruce_foundation_slab_double", Material.WOOD, 1.0F, SoundType.WOOD);
+		addSlabPair(spruce_foundation_slab, spruce_foundation_slab_double);
+
+		DoTBBlockSlabHalf plastered_stone_slab = new DoTBBlockSlabHalf("plastered_stone_slab", Material.ROCK, 2.0F, SoundType.STONE);
+		DoTBBlockSlabDouble plastered_stone_slab_double = new DoTBBlockSlabDouble("plastered_stone_slab_double", Material.ROCK, 2.0F, SoundType.STONE);
+		addSlabPair(plastered_stone_slab, plastered_stone_slab_double);
+
+		DoTBBlockSlabHalf red_plastered_stone_slab = new DoTBBlockSlabHalf("red_plastered_stone_slab", Material.ROCK, 2.0F, SoundType.STONE);
+		DoTBBlockSlabDouble red_plastered_stone_slab_double = new DoTBBlockSlabDouble("red_plastered_stone_slab_double", Material.ROCK, 2.0F, SoundType.STONE);
+		addSlabPair(red_plastered_stone_slab, red_plastered_stone_slab_double);
+
+		DoTBBlockSlabPathHalf path_gravel_slab = new DoTBBlockSlabPathHalf("path_gravel_slab", Material.GRASS, 0.5F, SoundType.GROUND);
+		DoTBBlockSlabPathDouble path_gravel_slab_double = new DoTBBlockSlabPathDouble("path_gravel_slab_double", Material.GRASS, 0.5F, SoundType.GROUND);
+		addSlabPair(path_gravel_slab, path_gravel_slab_double);
+
+		DoTBBlockSlabPathHalf path_stepping_stones_slab = new DoTBBlockSlabPathHalf("path_stepping_stones_slab", Material.GRASS, 0.5F, SoundType.GROUND);
+		DoTBBlockSlabPathDouble path_stepping_stones_slab_double = new DoTBBlockSlabPathDouble("path_stepping_stones_slab_double", Material.GRASS, 0.5F, SoundType.GROUND);
+		addSlabPair(path_stepping_stones_slab, path_stepping_stones_slab_double);
+
+		DoTBBlockSlabPathHalf path_cobbled_slab = new DoTBBlockSlabPathHalf("path_cobbled_slab", Material.GRASS, 0.5F, SoundType.GROUND);
+		DoTBBlockSlabPathDouble path_cobbled_slab_double = new DoTBBlockSlabPathDouble("path_cobbled_slab_double", Material.GRASS, 0.5F, SoundType.GROUND);
+		addSlabPair(path_cobbled_slab, path_cobbled_slab_double);
+
+		DoTBBlockSlabPathHalf path_ochre_tiles_slab = new DoTBBlockSlabPathHalf("path_ochre_tiles_slab", Material.GRASS, 0.5F, SoundType.GROUND);
+		DoTBBlockSlabPathDouble path_ochre_tiles_slab_double = new DoTBBlockSlabPathDouble("path_ochre_tiles_slab_double", Material.GRASS, 0.5F, SoundType.GROUND);
+		addSlabPair(path_ochre_tiles_slab, path_ochre_tiles_slab_double);
+
+		DoTBBlockSlabPathHalf path_dirt_slab = new DoTBBlockSlabPathHalf("path_dirt_slab", Material.GRASS, 0.5F, SoundType.GROUND);
+		DoTBBlockSlabPathDouble path_dirt_slab_double = new DoTBBlockSlabPathDouble("path_dirt_slab_double", Material.GRASS, 0.5F, SoundType.GROUND);
+		addSlabPair(path_dirt_slab, path_dirt_slab_double);
+
+		BlockOchreRoofTilesSlab ochre_roof_tiles_slab = new BlockOchreRoofTilesSlab("ochre_roof_tiles_slab", false);
+		BlockOchreRoofTilesSlab ochre_roof_tiles_slab_double = new BlockOchreRoofTilesSlab("ochre_roof_tiles_slab_double", true);
+		ochre_roof_tiles_slab.setSlabs(ochre_roof_tiles_slab, ochre_roof_tiles_slab_double);
+		ochre_roof_tiles_slab_double.setSlabs(ochre_roof_tiles_slab, ochre_roof_tiles_slab_double);
+		addToList(ochre_roof_tiles_slab, ochre_roof_tiles_slab_double);
+
 		addToList(
 				//Compatibility
 				new BlockPath(),
-				new BlockTilesSlabHalf(),
-				new BlockTilesSlabDouble(),
-				new BlockPathSlabHalf(),
-				new BlockPathSlabDouble(),
-				new BlockOchreRoofTilesSlabHalf(),
-				new BlockOchreRoofTilesSlabDouble(),
 				new BlockThatch(),
 
 				//General
@@ -68,19 +132,16 @@ public class DoTBBlocksRegistry {
 				new DoTBBlockPath("path_cobbled"),
 				new DoTBBlockPath("path_ochre_tiles"),
 				new DoTBBlockPath("path_dirt"),
-				new DoTBBlockSlabPath("path_gravel_slab"),
-				new DoTBBlockSlabPath("path_stepping_stones_slab"),
-				new DoTBBlockSlabPath("path_cobbled_slab"),
-				new DoTBBlockSlabPath("path_ochre_tiles_slab"),
-				new DoTBBlockSlabPath("path_dirt_slab"),
 				new DoTBBlock("rammed_dirt", Material.GROUND, 0.5F, SoundType.GROUND),
 				thatch_wheat.setBurnable(),
 				new DoTBBlockStairs("thatch_wheat_stairs", thatch_wheat, 0.3F, SoundType.CLOTH).setBurnable(),
-				new DoTBBlockSlab("thatch_wheat_slab", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable(),
+				thatch_wheat_slab,
+				thatch_wheat_slab_double,
 				new DoTBBlockEdge("thatch_wheat_edge", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable(),
 				thatch_bamboo.setBurnable(),
 				new DoTBBlockStairs("thatch_bamboo_stairs", thatch_bamboo, 0.3F, SoundType.CLOTH).setBurnable(),
-				new DoTBBlockSlab("thatch_bamboo_slab", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable(),
+				thatch_bamboo_slab,
+				thatch_bamboo_slab_double,
 				new DoTBBlockEdge("thatch_bamboo_edge", Material.CLOTH, 0.3F, SoundType.CLOTH).setBurnable(),
 				new BlockFireplace(),
 
@@ -88,7 +149,8 @@ public class DoTBBlocksRegistry {
 				new DoTBBlock("cobbled_limestone", Material.ROCK, 1.0F, SoundType.STONE),
 				flat_roof_tiles,
 				new DoTBBlockStairs("flat_roof_tiles_stairs", flat_roof_tiles, 2.0F, SoundType.STONE),
-				new DoTBBlockSlab("flat_roof_tiles_slab", Material.ROCK, 2.0F, SoundType.STONE),
+				flat_roof_tiles_slab,
+				flat_roof_tiles_slab_double,
 				new DoTBBlockEdge("flat_roof_tiles_edge", Material.ROCK, 1.5F, SoundType.STONE),
 				new DoTBBlock("framed_rammed_dirt", Material.WOOD, 1.0F, SoundType.GROUND).setBurnable(),
 				new DoTBBlockPortcullis("iron_portcullis", Material.IRON),
@@ -97,7 +159,8 @@ public class DoTBBlocksRegistry {
 				new BlockLatticeOakWindow(),
 				limestone_brick,
 				new DoTBBlockStairs("limestone_brick_stairs", limestone_brick, 2.0F, SoundType.STONE),
-				new DoTBBlockSlab("limestone_brick_slab", Material.ROCK, 2.0F, SoundType.STONE),
+				limestone_brick_slab,
+				limestone_brick_slab_double,
 				new DoTBBlockEdge("limestone_brick_edge", Material.ROCK, 2.0F, SoundType.STONE),
 				new DoTBBlockWall("limestone_brick_wall", Material.ROCK, 2.0F, SoundType.STONE),
 				new BlockLimestoneChimney(),
@@ -114,7 +177,8 @@ public class DoTBBlocksRegistry {
 				new DoTBBlockFence("oak_waxed_fence", Material.WOOD).setBurnable(),
 				oak_waxed_planks.setBurnable(),
 				new DoTBBlockStairs("oak_waxed_planks_stairs", oak_waxed_planks, 1.5F, SoundType.WOOD),
-				new DoTBBlockSlab("oak_waxed_planks_slab", Material.WOOD, 1.5F, SoundType.WOOD),
+				oak_waxed_planks_slab,
+				oak_waxed_planks_slab_double,
 				new DoTBBlockEdge("oak_waxed_planks_edge", Material.WOOD, 1.5F, SoundType.WOOD),
 
 				//Japanese
@@ -127,7 +191,8 @@ public class DoTBBlocksRegistry {
 				new BlockPaperLamp(),
 				grey_roof_tiles,
 				new DoTBBlockStairs("grey_roof_tiles_stairs", grey_roof_tiles, 2.0F, SoundType.STONE),
-				new DoTBBlockSlab("grey_roof_tiles_slab", Material.ROCK, 2.0F, SoundType.STONE),
+				grey_roof_tiles_slab,
+				grey_roof_tiles_slab_double,
 				new DoTBBlockEdge("grey_roof_tiles_edge", Material.ROCK, 1.5F, SoundType.STONE),
 				new DoTBBlockWall("grey_roof_tiles_wall", Material.ROCK, 2.0F, SoundType.STONE),
 				new BlockIkebanaFlowerPot(),
@@ -164,7 +229,8 @@ public class DoTBBlocksRegistry {
 				new BlockIrori(),
 				new BlockSakeBottle(),
 				new BlockSakeCup(),
-				new DoTBBlockSlab("spruce_foundation_slab", Material.WOOD, 1.0F, SoundType.WOOD),
+				spruce_foundation_slab,
+				spruce_foundation_slab_double,
 				new BlockStickBundle(),
 
 				//mayan
@@ -182,14 +248,16 @@ public class DoTBBlocksRegistry {
 				new DoTBBlockPlate("plastered_stone_frieze"),
 				new DoTBBlockPlate("plastered_stone_plate"),
 				new DoTBBlockStairs("plastered_stone_stairs", plastered_stone, 2.0F, SoundType.STONE),
-				new DoTBBlockSlab("plastered_stone_slab", Material.ROCK, 2.0F, SoundType.STONE),
+				plastered_stone_slab,
+				plastered_stone_slab_double,
 				new DoTBBlockEdge("plastered_stone_edge", Material.ROCK, 1.5F, SoundType.STONE),
 				new BlockPlasteredStoneWindow(),
 				new DoTBBlockPlate("red_ornamented_plastered_stone_frieze"),
 				new DoTBBlockPlate("red_plastered_stone_frieze"),
 				new DoTBBlockPlate("red_plastered_stone_plate"),
 				new DoTBBlockStairs("red_plastered_stone_stairs", plastered_stone, 1, 2.0F, SoundType.STONE),
-				new DoTBBlockSlab("red_plastered_stone_slab", Material.ROCK, 2.0F, SoundType.STONE),
+				red_plastered_stone_slab,
+				red_plastered_stone_slab_double,
 				new DoTBBlockEdge("red_plastered_stone_edge", Material.ROCK, 1.5F, SoundType.STONE),
 				new BlockRedSculptedPlasteredStoneFrieze(),
 				new DoTBBlockEdge("red_small_plastered_stone_frieze", Material.ROCK, 1.5F, SoundType.STONE),
@@ -199,7 +267,8 @@ public class DoTBBlocksRegistry {
 				//roman
 				new DoTBBlock("ochre_roof_tiles", Material.ROCK, 2.0F, SoundType.STONE),
 				new BlockOchreRoofTilesMerged(),
-				new BlockOchreRoofTilesSlab(),
+				ochre_roof_tiles_slab,
+				ochre_roof_tiles_slab_double,
 				new BlockSandstoneColumn()
 		);
 	}

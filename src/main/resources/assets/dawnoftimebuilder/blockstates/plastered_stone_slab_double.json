@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:mayan/plastered_stone_slab_double" },
+        "half=top": { "model": "dawnoftimebuilder:mayan/plastered_stone_slab_double" }
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:french/flat_roof_tiles" },
+        "half=top": { "model": "dawnoftimebuilder:french/flat_roof_tiles" }
+    }
+}

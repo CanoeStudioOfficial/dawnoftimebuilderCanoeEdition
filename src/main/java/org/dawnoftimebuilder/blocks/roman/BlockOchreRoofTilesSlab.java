@@ -1,13 +1,13 @@
 package org.dawnoftimebuilder.blocks.roman;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.block.BlockSlab;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -19,23 +19,32 @@ import org.dawnoftimebuilder.blocks.DoTBBlocks;
 import org.dawnoftimebuilder.blocks.general.DoTBBlockSlab;
 import org.dawnoftimebuilder.items.roman.ItemOchreRoofTilesSlab;
 
+import static net.minecraft.block.Block.FULL_BLOCK_AABB;
+
 public class BlockOchreRoofTilesSlab extends DoTBBlockSlab {
 
-	public BlockOchreRoofTilesSlab() {
-		super("ochre_roof_tiles_slab", Material.ROCK, 1.5F, SoundType.STONE);
+	private final boolean isDouble;
+
+	public BlockOchreRoofTilesSlab(String name, boolean isDouble) {
+		super(name, Material.ROCK, 1.5F, SoundType.STONE);
+		this.isDouble = isDouble;
+	}
+
+	@Override
+	public boolean isDouble() {
+		return this.isDouble;
 	}
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		ItemStack itemstack = playerIn.getHeldItem(hand);
-		state = this.getActualState(state, worldIn, pos);
-		if(state.getValue(SLAB) == EnumSlab.TOP){
-			if(!itemstack.isEmpty() && itemstack.getItem() == Item.getItemFromBlock(Blocks.STONE_SLAB) && itemstack.getMetadata() == 1){
+		if (state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
+			ItemStack itemstack = playerIn.getHeldItem(hand);
+			if (!itemstack.isEmpty() && itemstack.getItem() == Item.getItemFromBlock(Blocks.STONE_SLAB) && itemstack.getMetadata() == 1) {
 				IBlockState madeState = DoTBBlocks.ochre_roof_tiles_merged.getDefaultState();
-				if(worldIn.checkNoEntityCollision(FULL_BLOCK_AABB.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
+				if (worldIn.checkNoEntityCollision(FULL_BLOCK_AABB.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
 					SoundType soundtype = DoTBBlocks.ochre_roof_tiles_merged.getSoundType(madeState, worldIn, pos, playerIn);
 					worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-					if(!playerIn.isCreative()) itemstack.shrink(1);
+					if (!playerIn.isCreative()) itemstack.shrink(1);
 					if (playerIn instanceof EntityPlayerMP) {
 						CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) playerIn, pos, itemstack);
 					}
@@ -48,6 +57,7 @@ public class BlockOchreRoofTilesSlab extends DoTBBlockSlab {
 
 	@Override
 	public Item getCustomItemBlock() {
-		return new ItemOchreRoofTilesSlab(this);
+		if (this.isDouble()) return null;
+		return new ItemOchreRoofTilesSlab(this, this, this.getDoubleSlab());
 	}
 }

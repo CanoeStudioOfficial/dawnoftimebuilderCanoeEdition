@@ -1,6 +1,7 @@
 package org.dawnoftimebuilder.items.roman;
 
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.block.SoundType;
@@ -18,15 +19,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.dawnoftimebuilder.blocks.DoTBBlocks;
-import org.dawnoftimebuilder.blocks.general.DoTBBlockSlab;
 import org.dawnoftimebuilder.items.general.DoTBItemSlab;
 
 import static net.minecraft.block.Block.FULL_BLOCK_AABB;
 
 public class ItemOchreRoofTilesSlab extends DoTBItemSlab {
 
-	public ItemOchreRoofTilesSlab(DoTBBlockSlab slab) {
-		super(slab);
+	public ItemOchreRoofTilesSlab(Block block, BlockSlab singleSlab, BlockSlab doubleSlab) {
+		super(block, singleSlab, doubleSlab);
 	}
 
 	@Override
@@ -55,40 +55,16 @@ public class ItemOchreRoofTilesSlab extends DoTBItemSlab {
 	}
 
 	@Override
-	public boolean tryPlace(EntityPlayer player, ItemStack stack, World worldIn, BlockPos pos) {
-		IBlockState state = worldIn.getBlockState(pos);
-		if(state.getBlock() == Blocks.STONE_SLAB) {
-			if (!((BlockSlab) state.getBlock()).isDouble()) {
-				IBlockState madeState = DoTBBlocks.ochre_roof_tiles_merged.getDefaultState();
-				if (worldIn.checkNoEntityCollision(FULL_BLOCK_AABB.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
-					SoundType soundtype = DoTBBlocks.ochre_roof_tiles_merged.getSoundType(madeState, worldIn, pos, player);
-					worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-					stack.shrink(1);
-				}
-				return true;
-			}
-		}
-		return super.tryPlace(player, stack, worldIn, pos);
-	}
-
-	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
 		BlockPos blockpos = pos;
 		IBlockState state = worldIn.getBlockState(pos);
-		if(state.getBlock() == Blocks.STONE_SLAB) {
-			if(state.getValue(BlockStoneSlab.VARIANT) == BlockStoneSlab.EnumType.SAND && !((BlockSlab) state.getBlock()).isDouble()){
-				if((state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.BOTTOM && side == EnumFacing.UP) || (state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP && side == EnumFacing.DOWN))
+		if (state.getBlock() == Blocks.STONE_SLAB) {
+			if (state.getValue(BlockStoneSlab.VARIANT) == BlockStoneSlab.EnumType.SAND && !((BlockSlab) state.getBlock()).isDouble()) {
+				if ((state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.BOTTOM && side == EnumFacing.UP) || (state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP && side == EnumFacing.DOWN))
 					return true;
 			}
 		}
-
-		pos = pos.offset(side);
-		state = worldIn.getBlockState(pos);
-		if(state.getBlock() == Blocks.STONE_SLAB) {
-			if(state.getValue(BlockStoneSlab.VARIANT) == BlockStoneSlab.EnumType.SAND && ((BlockSlab) state.getBlock()).isDouble()) return true;
-		}
-
 		return super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
 	}
 }

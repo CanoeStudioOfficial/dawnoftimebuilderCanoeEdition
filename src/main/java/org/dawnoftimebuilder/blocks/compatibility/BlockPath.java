@@ -75,6 +75,8 @@ public class BlockPath extends DoTBBlock implements IBlockMeta, IBlockCustomItem
 				return DoTBBlocks.path_ochre_tiles.getDefaultState();
 			case 5 :
 				return DoTBBlocks.path_dirt.getDefaultState();
+			case 3 :
+				return Blocks.SANDSTONE.getDefaultState();
 			default :
 				return Blocks.AIR.getDefaultState();
 		}

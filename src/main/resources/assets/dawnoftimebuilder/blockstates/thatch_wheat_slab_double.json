@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:general/thatch_wheat" },
+        "half=top": { "model": "dawnoftimebuilder:general/thatch_wheat" }
+    }
+}

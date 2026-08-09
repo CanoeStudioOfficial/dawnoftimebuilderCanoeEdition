@@ -1,7 +1,6 @@
 {
     "variants": {
-        "slab=bottom": { "model": "dawnoftimebuilder:japanese/grey_roof_tiles_slab_bottom" },
-        "slab=top": { "model": "dawnoftimebuilder:japanese/grey_roof_tiles_slab_top" },
-        "slab=double": { "model": "dawnoftimebuilder:japanese/grey_roof_tiles" }
+        "half=bottom": { "model": "dawnoftimebuilder:japanese/grey_roof_tiles_slab_bottom" },
+        "half=top": { "model": "dawnoftimebuilder:japanese/grey_roof_tiles_slab_top" }
     }
 }

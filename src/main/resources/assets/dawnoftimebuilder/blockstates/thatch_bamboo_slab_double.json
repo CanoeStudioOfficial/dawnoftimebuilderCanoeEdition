@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:general/thatch_bamboo" },
+        "half=top": { "model": "dawnoftimebuilder:general/thatch_bamboo" }
+    }
+}

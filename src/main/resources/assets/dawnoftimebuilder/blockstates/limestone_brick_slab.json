@@ -1,7 +1,6 @@
 {
     "variants": {
-        "slab=bottom": { "model": "dawnoftimebuilder:french/limestone_brick_slab_bottom" },
-        "slab=top": { "model": "dawnoftimebuilder:french/limestone_brick_slab_top" },
-        "slab=double": { "model": "dawnoftimebuilder:french/limestone_brick" }
+        "half=bottom": { "model": "dawnoftimebuilder:french/limestone_brick_slab_bottom" },
+        "half=top": { "model": "dawnoftimebuilder:french/limestone_brick_slab_top" }
     }
 }

@@ -1,7 +1,6 @@
 {
     "variants": {
-        "slab=bottom": { "model": "dawnoftimebuilder:general/thatch_bamboo_slab_bottom" },
-        "slab=top": { "model": "dawnoftimebuilder:general/thatch_bamboo_slab_top" },
-        "slab=double": { "model": "dawnoftimebuilder:general/thatch_bamboo" }
+        "half=bottom": { "model": "dawnoftimebuilder:general/thatch_bamboo_slab_bottom" },
+        "half=top": { "model": "dawnoftimebuilder:general/thatch_bamboo_slab_top" }
     }
 }

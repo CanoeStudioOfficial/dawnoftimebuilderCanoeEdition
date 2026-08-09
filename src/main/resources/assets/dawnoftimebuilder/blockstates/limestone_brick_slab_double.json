@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:french/limestone_brick" },
+        "half=top": { "model": "dawnoftimebuilder:french/limestone_brick" }
+    }
+}

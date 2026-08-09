@@ -1,10 +1,16 @@
 {
     "variants": {
-        "full=true,slab=bottom": { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_bottom" },
-        "full=false,slab=bottom": { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_bottom" },
-        "full=true,slab=top": { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_top" },
-        "full=false,slab=top": { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_top_full" },
-        "full=true,slab=double": { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_double" },
-        "full=false,slab=double": { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_double_full" }
+        "full=true,half=bottom": [
+            { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_bottom" }
+        ],
+        "full=false,half=bottom": [
+            { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_bottom" }
+        ],
+        "full=true,half=top": [
+            { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_top_full" }
+        ],
+        "full=false,half=top": [
+            { "model": "dawnoftimebuilder:general/path_ochre_tiles_slab_top" }
+        ]
     }
 }

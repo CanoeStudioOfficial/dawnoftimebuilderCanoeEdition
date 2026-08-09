@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:french/oak_waxed_planks" },
+        "half=top": { "model": "dawnoftimebuilder:french/oak_waxed_planks" }
+    }
+}

@@ -1,16 +1,14 @@
-﻿itemGroup.dawnoftimebuilder=Dawn of Time : Builder Edition
+itemGroup.dawnoftimebuilder=Dawn of Time : Builder Edition
 
 tile.dawnoftimebuilder.path_cobbled.name=Chemin pavé
 tile.dawnoftimebuilder.path_dirt.name=Chemin de terre
 tile.dawnoftimebuilder.path_gravel.name=Chemin de gravier
 tile.dawnoftimebuilder.path_ochre_tiles.name=Chemin de tuiles ocres
-tile.dawnoftimebuilder.path_sandstone.name=Chemin de grés
 tile.dawnoftimebuilder.path_stepping_stones.name=Chemin de pas Japonais
 tile.dawnoftimebuilder.path_cobbled_slab.name=Dalle de chemin pavé
 tile.dawnoftimebuilder.path_dirt_slab.name=Dalle en chemin de terre
 tile.dawnoftimebuilder.path_gravel_slab.name=Dalle de chemin pavé
 tile.dawnoftimebuilder.path_ochre_tiles_slab.name=Dalle en chemin de tuiles ocres
-tile.dawnoftimebuilder.path_sandstone_slab.name=Dalle en chemin de grés
 tile.dawnoftimebuilder.path_stepping_stones_slab.name=Dalle en chemin de pas japonais
 tile.dawnoftimebuilder.rammed_dirt.name=Terre battue
 tile.dawnoftimebuilder.framed_rammed_dirt.name=Terre battue renforcée

@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "half=bottom": { "model": "dawnoftimebuilder:roman/ochre_roof_tiles" },
+        "half=top": { "model": "dawnoftimebuilder:roman/ochre_roof_tiles" }
+    }
+}
