@@ -37,21 +37,27 @@ public class BlockOchreRoofTilesSlab extends DoTBBlockSlab {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP) {
-			ItemStack itemstack = playerIn.getHeldItem(hand);
-			if (!itemstack.isEmpty() && itemstack.getItem() == Item.getItemFromBlock(Blocks.STONE_SLAB) && itemstack.getMetadata() == 1) {
-				IBlockState madeState = DoTBBlocks.ochre_roof_tiles_merged.getDefaultState();
-				if (worldIn.checkNoEntityCollision(FULL_BLOCK_AABB.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
-					SoundType soundtype = DoTBBlocks.ochre_roof_tiles_merged.getSoundType(madeState, worldIn, pos, playerIn);
-					worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-					if (!playerIn.isCreative()) itemstack.shrink(1);
-					if (playerIn instanceof EntityPlayerMP) {
-						CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) playerIn, pos, itemstack);
-					}
-					return true;
+		ItemStack itemstack = playerIn.getHeldItem(hand);
+		BlockSlab.EnumBlockHalf half = state.getValue(HALF);
+		boolean correctFace = facing == EnumFacing.UP && half == BlockSlab.EnumBlockHalf.BOTTOM
+				|| facing == EnumFacing.DOWN && half == BlockSlab.EnumBlockHalf.TOP;
+
+		if (!this.isDouble() && correctFace && !itemstack.isEmpty()
+				&& playerIn.canPlayerEdit(pos.offset(facing), facing, itemstack)
+				&& itemstack.getItem() == Item.getItemFromBlock(Blocks.STONE_SLAB)
+				&& itemstack.getMetadata() == 1) {
+			IBlockState madeState = DoTBBlocks.ochre_roof_tiles_merged.getDefaultState();
+			if (worldIn.checkNoEntityCollision(FULL_BLOCK_AABB.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
+				SoundType soundtype = DoTBBlocks.ochre_roof_tiles_merged.getSoundType(madeState, worldIn, pos, playerIn);
+				worldIn.playSound(playerIn, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+				if (!playerIn.isCreative()) itemstack.shrink(1);
+				if (playerIn instanceof EntityPlayerMP) {
+					CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) playerIn, pos, itemstack);
 				}
 			}
+			return true;
 		}
+
 		return super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ);
 	}
 

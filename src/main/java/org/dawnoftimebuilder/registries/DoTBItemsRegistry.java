@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.dawnoftimebuilder.DoTBConfigs;
 import org.dawnoftimebuilder.blocks.IBlockMeta;
+import org.dawnoftimebuilder.blocks.general.DoTBBlockSlab;
 import org.dawnoftimebuilder.enums.IEnumMetaVariants;
 import org.dawnoftimebuilder.items.IItemCanBeDried;
 import org.dawnoftimebuilder.items.egyptian.ItemPharaohArmor;
@@ -105,6 +107,12 @@ public class DoTBItemsRegistry {
 
 	@SideOnly(Side.CLIENT)
 	public static void registerItemsModels(){
+		for (Block block : DoTBBlocksRegistry.blocks_list) {
+			if (block instanceof DoTBBlockSlab) {
+				ModelLoader.setCustomStateMapper(block, new StateMap.Builder().ignore(DoTBBlockSlab.VARIANT).build());
+			}
+		}
+
 		for(Item item : items_list){
 			if(item instanceof ItemBlock){
 				Block block = ((ItemBlock) item).getBlock();

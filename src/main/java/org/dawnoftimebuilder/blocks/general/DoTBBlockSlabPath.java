@@ -21,17 +21,20 @@ public abstract class DoTBBlockSlabPath extends DoTBBlockSlab {
 	private static final AxisAlignedBB AABB_TOP = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
 	private static final AxisAlignedBB AABB_BOTTOM_PATH = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.4375D, 1.0D);
 	private static final AxisAlignedBB AABB_TOP_PATH = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 0.9375D, 1.0D);
-	private static final AxisAlignedBB AABB_FULL_PATH = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 0.9375D, 1.0D);
+	private static final AxisAlignedBB AABB_FULL_PATH = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 
 	public DoTBBlockSlabPath(String name, Material materialIn, float hardness, SoundType sound) {
 		super(name, materialIn, hardness, sound);
 
-		this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM).withProperty(FULL, Boolean.FALSE));
+		this.setDefaultState(this.blockState.getBaseState()
+				.withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM)
+				.withProperty(FULL, Boolean.FALSE)
+				.withProperty(VARIANT, EnumSlabVariant.DEFAULT));
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, HALF, FULL);
+		return new BlockStateContainer(this, HALF, FULL, VARIANT);
 	}
 
 	@Override

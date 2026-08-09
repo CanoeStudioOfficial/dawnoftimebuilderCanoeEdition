@@ -3,6 +3,6 @@
     "textures": {
         "bottom": "dawnoftimebuilder:blocks/plastered_stone",
         "top": "dawnoftimebuilder:blocks/plastered_stone",
-        "side": "dawnoftimebuilder:blocks/plastered_stone"
+        "side": "dawnoftimebuilder:blocks/plastered_stone_slab"
     }
 }

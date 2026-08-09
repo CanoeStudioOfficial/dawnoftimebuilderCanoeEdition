@@ -32,23 +32,11 @@ public class ItemOchreRoofTilesSlab extends DoTBItemSlab {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack itemstack = player.getHeldItem(hand);
-		if (!itemstack.isEmpty() && player.canPlayerEdit(pos.offset(facing), facing, itemstack) && facing == EnumFacing.UP) {
+		if (!itemstack.isEmpty() && player.canPlayerEdit(pos.offset(facing), facing, itemstack)) {
 			IBlockState state = worldIn.getBlockState(pos);
-			if (state.getBlock() == Blocks.STONE_SLAB) {
-				if (state.getValue(BlockStoneSlab.VARIANT) == BlockStoneSlab.EnumType.SAND && !((BlockSlab) state.getBlock()).isDouble()) {
-					if (state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.BOTTOM) {
-						IBlockState madeState = DoTBBlocks.ochre_roof_tiles_merged.getDefaultState();
-						if (worldIn.checkNoEntityCollision(FULL_BLOCK_AABB.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
-							SoundType soundtype = DoTBBlocks.ochre_roof_tiles_merged.getSoundType(madeState, worldIn, pos, player);
-							worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-							itemstack.shrink(1);
-							if (player instanceof EntityPlayerMP) {
-								CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, itemstack);
-							}
-						}
-						return EnumActionResult.SUCCESS;
-					}
-				}
+			if (isSandstoneSlab(state) && canMergeOnFace(state, facing)) {
+				mergeToMerged(worldIn, pos, itemstack, player);
+				return EnumActionResult.SUCCESS;
 			}
 		}
 		return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
@@ -57,14 +45,33 @@ public class ItemOchreRoofTilesSlab extends DoTBItemSlab {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
-		BlockPos blockpos = pos;
 		IBlockState state = worldIn.getBlockState(pos);
-		if (state.getBlock() == Blocks.STONE_SLAB) {
-			if (state.getValue(BlockStoneSlab.VARIANT) == BlockStoneSlab.EnumType.SAND && !((BlockSlab) state.getBlock()).isDouble()) {
-				if ((state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.BOTTOM && side == EnumFacing.UP) || (state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP && side == EnumFacing.DOWN))
-					return true;
+		return isSandstoneSlab(state) && canMergeOnFace(state, side)
+				|| super.canPlaceBlockOnSide(worldIn, pos, side, player, stack);
+	}
+
+	private boolean isSandstoneSlab(IBlockState state) {
+		return state.getBlock() == Blocks.STONE_SLAB
+				&& !((BlockSlab) state.getBlock()).isDouble()
+				&& state.getValue(BlockStoneSlab.VARIANT) == BlockStoneSlab.EnumType.SAND;
+	}
+
+	private boolean canMergeOnFace(IBlockState state, EnumFacing facing) {
+		BlockSlab.EnumBlockHalf half = state.getValue(BlockSlab.HALF);
+		return facing == EnumFacing.UP && half == BlockSlab.EnumBlockHalf.BOTTOM
+				|| facing == EnumFacing.DOWN && half == BlockSlab.EnumBlockHalf.TOP;
+	}
+
+	private void mergeToMerged(World worldIn, BlockPos pos, ItemStack stack, EntityPlayer player) {
+		IBlockState madeState = DoTBBlocks.ochre_roof_tiles_merged.getDefaultState();
+		if (worldIn.checkNoEntityCollision(FULL_BLOCK_AABB.offset(pos)) && worldIn.setBlockState(pos, madeState, 11)) {
+			SoundType soundtype = DoTBBlocks.ochre_roof_tiles_merged.getSoundType(madeState, worldIn, pos, player);
+			worldIn.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+			if (!player.isCreative()) stack.shrink(1);
+
+			if (player instanceof EntityPlayerMP) {
+				CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, stack);
 			}
 		}
-		return super.canPlaceBlockOnSide(worldIn, blockpos, side, player, stack);
 	}
 }

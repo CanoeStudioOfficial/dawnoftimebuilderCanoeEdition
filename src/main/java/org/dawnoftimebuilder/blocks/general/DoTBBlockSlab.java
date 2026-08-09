@@ -1,19 +1,20 @@
 package org.dawnoftimebuilder.blocks.general;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSlab;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.IStringSerializable;
 import org.dawnoftimebuilder.blocks.IBlockCustomItem;
-import org.dawnoftimebuilder.items.general.DoTBItemSlab;
 
 import java.util.Random;
 
@@ -21,11 +22,18 @@ import static org.dawnoftimebuilder.DawnOfTimeBuilder.DOTB_TAB;
 import static org.dawnoftimebuilder.DawnOfTimeBuilder.MOD_ID;
 
 /**
- * 标准原版式台阶（BlockSlab）。每个材质注册 half/double 两个方块：
- * - half：放置/合成/创造栏可见，物品由 {@link DoTBItemSlab}（原版 ItemSlab）处理双击合成；
- * - double：仅用于世界中的完整台阶，掉落时还原为 2 个 half 物品。
+ * Standard {@link BlockSlab} implementation. Each material has one single
+ * slab block and one double slab block; vanilla handles placement and item
+ * behaviour.
+ *
+ * Vanilla {@link ItemSlab} requires a non-null variant property even when a
+ * slab has no material variants. The single-value property below supplies the
+ * required value and is ignored by the client state mapper, so it never
+ * changes the blockstate/model keys.
  */
 public abstract class DoTBBlockSlab extends BlockSlab implements IBlockCustomItem {
+
+	public static final PropertyEnum<EnumSlabVariant> VARIANT = PropertyEnum.create("variant", EnumSlabVariant.class);
 
 	private BlockSlab singleSlab;
 	private BlockSlab doubleSlab;
@@ -40,7 +48,9 @@ public abstract class DoTBBlockSlab extends BlockSlab implements IBlockCustomIte
 		this.setSoundType(sound);
 		this.useNeighborBrightness = true;
 
-		this.setDefaultState(this.blockState.getBaseState().withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM));
+		this.setDefaultState(this.blockState.getBaseState()
+				.withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM)
+				.withProperty(VARIANT, EnumSlabVariant.DEFAULT));
 	}
 
 	/** 设置与之配对的 half/double 方块（half 指向自身与 double；double 指向 half 与自身）。 */
@@ -55,17 +65,17 @@ public abstract class DoTBBlockSlab extends BlockSlab implements IBlockCustomIte
 
 	@Override
 	public IProperty<?> getVariantProperty() {
-		return null;
+		return VARIANT;
 	}
 
 	@Override
 	public Comparable<?> getTypeForItem(ItemStack stack) {
-		return null;
+		return EnumSlabVariant.DEFAULT;
 	}
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, HALF);
+		return new BlockStateContainer(this, HALF, VARIANT);
 	}
 
 	@Override
@@ -104,12 +114,31 @@ public abstract class DoTBBlockSlab extends BlockSlab implements IBlockCustomIte
 	@Override
 	public Item getCustomItemBlock() {
 		if (this.isDouble()) return null;
-		return new DoTBItemSlab(this, this, this.doubleSlab);
+
+		ItemSlab item = new ItemSlab(this, this, this.doubleSlab);
+		item.setTranslationKey(this.getTranslationKey());
+		item.setRegistryName(this.getRegistryName());
+		return item;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T extends DoTBBlockSlab> T setBurnable() {
 		Blocks.FIRE.setFireInfo(this, 5, 20);
 		return (T) this;
+	}
+
+	public enum EnumSlabVariant implements IStringSerializable {
+		DEFAULT("default");
+
+		private final String name;
+
+		EnumSlabVariant(String name) {
+			this.name = name;
+		}
+
+		@Override
+		public String getName() {
+			return this.name;
+		}
 	}
 }
