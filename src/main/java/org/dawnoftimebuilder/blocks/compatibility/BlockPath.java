@@ -1,9 +1,6 @@
 package org.dawnoftimebuilder.blocks.compatibility;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -28,6 +25,7 @@ import org.dawnoftimebuilder.blocks.DoTBBlocks;
 import org.dawnoftimebuilder.blocks.IBlockCustomItem;
 import org.dawnoftimebuilder.blocks.IBlockMeta;
 import org.dawnoftimebuilder.blocks.general.DoTBBlock;
+import org.dawnoftimebuilder.blocks.general.DoTBBlockPath;
 import org.dawnoftimebuilder.enums.IEnumMetaVariants;
 
 import java.util.Random;
@@ -88,13 +86,12 @@ public class BlockPath extends DoTBBlock implements IBlockMeta, IBlockCustomItem
 	}
 
 	private boolean isFull(IBlockAccess worldIn, BlockPos pos) {
-		Block block = worldIn.getBlockState(pos.up()).getBlock();
-		return !(block instanceof BlockAir || block instanceof BlockLeaves || block instanceof BlockBush);
+		return worldIn.getBlockState(pos.up()).getMaterial().isSolid();
 	}
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return GRASS_PATH_AABB;
+		return this.getActualState(state, source, pos).getValue(FULL) ? FULL_BLOCK_AABB : GRASS_PATH_AABB;
 	}
 	/**
 	 * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
@@ -135,13 +132,18 @@ public class BlockPath extends DoTBBlock implements IBlockMeta, IBlockCustomItem
 	@Override
 	public boolean isOpaqueCube(IBlockState state)
 	{
-		return false;
+		return state.getValue(FULL);
 	}
 
 	@Override
 	public boolean isFullCube(IBlockState state)
 	{
-		return false;
+		return state.getValue(FULL);
+	}
+
+	@Override
+	public boolean doesSideBlockRendering(IBlockState state, IBlockAccess worldIn, BlockPos pos, EnumFacing face) {
+		return this.getActualState(state, worldIn, pos).getValue(FULL);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -150,14 +152,19 @@ public class BlockPath extends DoTBBlock implements IBlockMeta, IBlockCustomItem
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		switch (side) {
 			case UP:
-				return true;
+				return !this.getActualState(blockState, blockAccess, pos).getValue(FULL)
+						|| super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 			case NORTH:
 			case SOUTH:
 			case WEST:
 			case EAST:
 				IBlockState iblockstate = blockAccess.getBlockState(pos.offset(side));
 				Block block = iblockstate.getBlock();
-				return !iblockstate.isOpaqueCube() && block != Blocks.FARMLAND && block != Blocks.GRASS_PATH;
+				BlockPos neighbourPos = pos.offset(side);
+				IBlockState actualNeighbour = iblockstate.getActualState(blockAccess, neighbourPos);
+				return !actualNeighbour.doesSideBlockRendering(blockAccess, neighbourPos, side.getOpposite())
+						&& block != Blocks.FARMLAND && block != Blocks.GRASS_PATH
+						&& !(block instanceof BlockPath) && !(block instanceof DoTBBlockPath);
 			default:
 				return super.shouldSideBeRendered(blockState, blockAccess, pos, side);
 		}
@@ -165,12 +172,14 @@ public class BlockPath extends DoTBBlock implements IBlockMeta, IBlockCustomItem
 
 	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockAccess p_193383_1_, IBlockState p_193383_2_, BlockPos p_193383_3_, EnumFacing p_193383_4_) {
-		return p_193383_4_ == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+		IBlockState actualState = this.getActualState(p_193383_2_, p_193383_1_, p_193383_3_);
+		return actualState.getValue(FULL) || p_193383_4_ == EnumFacing.DOWN
+				? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
 
 	@Override
 	public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side){
-		return base_state.getValue(FULL) || (side != EnumFacing.UP);
+		return this.getActualState(base_state, world, pos).getValue(FULL) || side == EnumFacing.DOWN;
 	}
 
 

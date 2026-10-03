@@ -1,9 +1,5 @@
 package org.dawnoftimebuilder.blocks.general;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -45,8 +41,7 @@ public abstract class DoTBBlockSlabPath extends DoTBBlockSlab {
 	}
 
 	private boolean isFull(IBlockAccess worldIn, BlockPos pos) {
-		Block block = worldIn.getBlockState(pos.up()).getBlock();
-		return !(block instanceof BlockAir || block instanceof BlockLeaves || block instanceof BlockBush);
+		return worldIn.getBlockState(pos.up()).getMaterial().isSolid();
 	}
 
 	@Override
@@ -84,18 +79,20 @@ public abstract class DoTBBlockSlabPath extends DoTBBlockSlab {
 		if (this.isDouble()) return actualState.getValue(FULL) || face == EnumFacing.DOWN;
 
 		BlockSlab.EnumBlockHalf half = actualState.getValue(HALF);
-		return half == BlockSlab.EnumBlockHalf.TOP && face == EnumFacing.UP
+		return half == BlockSlab.EnumBlockHalf.TOP && actualState.getValue(FULL) && face == EnumFacing.UP
 				|| half == BlockSlab.EnumBlockHalf.BOTTOM && face == EnumFacing.DOWN;
 	}
 
 	@Override
 	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
 		IBlockState actualState = this.getActualState(state, worldIn, pos);
-		if (actualState.getValue(FULL)) return BlockFaceShape.SOLID;
-		if (this.isDouble()) return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+		if (this.isDouble()) {
+			return actualState.getValue(FULL) || face == EnumFacing.DOWN
+					? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+		}
 
 		BlockSlab.EnumBlockHalf half = actualState.getValue(HALF);
-		return half == BlockSlab.EnumBlockHalf.TOP && face == EnumFacing.UP
+		return half == BlockSlab.EnumBlockHalf.TOP && actualState.getValue(FULL) && face == EnumFacing.UP
 				|| half == BlockSlab.EnumBlockHalf.BOTTOM && face == EnumFacing.DOWN
 				? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
 	}
@@ -106,7 +103,7 @@ public abstract class DoTBBlockSlabPath extends DoTBBlockSlab {
 		if (this.isDouble()) return actualState.getValue(FULL) || side == EnumFacing.DOWN;
 
 		BlockSlab.EnumBlockHalf half = actualState.getValue(HALF);
-		return half == BlockSlab.EnumBlockHalf.TOP && side == EnumFacing.UP
+		return half == BlockSlab.EnumBlockHalf.TOP && actualState.getValue(FULL) && side == EnumFacing.UP
 				|| half == BlockSlab.EnumBlockHalf.BOTTOM && side == EnumFacing.DOWN;
 	}
 }
